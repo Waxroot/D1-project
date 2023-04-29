@@ -1,3 +1,13 @@
+class Start extends Phaser.Scene {
+    constructor() {
+        super('start');
+
+}
+create(){
+    this.add.text(200,100,"Click to begin", {fontSize: 65, fill: '#fff2cc', fontStyle: 'italic'});
+                this.input.on('pointerdown', () => this.scene.start('intro'));
+
+}}
 class Intro extends Phaser.Scene {
     constructor() {
         super('intro');
@@ -11,7 +21,7 @@ preload(){
 }
 create(){
     this.graphics = this.add.graphics();
-    this.sound.add ('growl');
+    this.sound.add ('growl').play();
     this.cameras.main.fadeIn(1000, 0,0,0);
     this.imageObject = this.add.sprite(
         500,
@@ -40,10 +50,12 @@ class Body extends Phaser.Scene {
         super('body');
     }
     preload(){
+        this.load.path = './Assets/';
         this.load.audio('winds', 'whispering sands.mp3');
     }
     create() {
         this.graphics = this.add.graphics();
+        this.sound.add('winds').play();
         this.cameras.main.fadeIn(2000, 0,0,0);
         let box = this.add.text(-140, 150,
             ` 
@@ -124,12 +136,12 @@ class End extends Phaser.Scene {
     }
 }
 
-let config = {
+let config = {       
     type: Phaser.WEBGL,
     width: 1000,
     height: 700,
     backgroundColor: "black",
-    scene: [Intro, Body, End],
+    scene: [Start,Intro, Body, End],
 }
 let game = new Phaser.Game(config);
     
